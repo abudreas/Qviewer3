@@ -61,7 +61,7 @@ Public Class Questions
         testMode = tMode
         tableName = tbname
         category = catg
-
+        Title = catg
         timeTrial = timer
         If result Is Nothing OrElse result.Count = 0 Then
             MsgBox("No Questions matching the selected criteria !", MsgBoxStyle.OkOnly, "Error !")
@@ -120,6 +120,9 @@ Public Class Questions
 
     Private Sub changeQ(ByVal forword As Integer)
         Dim radio As RadioButton = captureSelection()
+        If showCounter < 0 Then Exit Sub
+
+
         If answered(showCounter) = 0 And forword = 1 Then
 
             If radio Is Nothing And testMode Then
@@ -166,6 +169,7 @@ Public Class Questions
             radio = captureSelection()
             If radio IsNot Nothing Then
                 checkAnswer(captureSelection())
+                RichTextBox1.BringIntoView()
             End If
         Else
             unselectAll()
@@ -190,7 +194,6 @@ Public Class Questions
     End Sub
     Sub checkAnswer(ByRef cradio As RadioButton)
         Dim iscorrect As Integer = 0
-
 
         '////////////////////////////
         If cradio Is Nothing And testMode Then
@@ -235,9 +238,9 @@ Public Class Questions
             label3.Text = Math.Round(correctCounter / answeredCounter, 2) * 100 & " % Correct"
         End If
         answered(showCounter) = 1
-        doc.Blocks.Add(panel1)
-
-        Scroller.BringIntoView()
+        RichTextBox2.Visibility = Visibility.Visible
+        PictureBox1.Visibility = Visibility.Visible
+        scroller.BringIntoView()
 
         'Panel1.Visibility = Visibility.Visible
     End Sub
@@ -281,23 +284,28 @@ Public Class Questions
             RadioButton5.Visibility = Visibility.Hidden
         End If
         If answered(showCounter) = 0 Then
-            doc.Blocks.Remove(panel1)
-            'Panel1.Visibility = Visibility.Hidden
+            RichTextBox2.Visibility = Visibility.Collapsed
+            ' RichTextBox2.Text = ""
+            PictureBox1.Visibility = Visibility.Collapsed
         Else
-            If Not doc.Blocks.Contains(panel1) Then doc.Blocks.Add(panel1)
+            RichTextBox2.Visibility = Visibility.Visible
+            PictureBox1.Visibility = Visibility.Visible
+            ' RichTextBox2.Text = qu(res.explanation)
 
-            ' Panel1.Visibility = Visibility.Visible
         End If
-        RichTextBox2.Inlines.Clear()
-        RichTextBox2.Inlines.Add(qu(res.explanation))
+        ' RichTextBox2.Inlines.Clear()
+        ' RichTextBox2.Inlines.Add(qu(res.explanation))
+        RichTextBox2.Text = qu(res.explanation)
         If qu(res.expImage) Is DBNull.Value OrElse qu(res.expImage) = "" Then
             PictureBox1.Source = Nothing
+            PictureBox1.Width = 0
+            PictureBox1.Height = 0
         Else
-            PictureBox1.BeginInit()
+
             PictureBox1.Source = loadImage(qu(res.expImage))
-            PictureBox1.EndInit()
-            'PictureBox1.Width = PictureBox1.Image.Width
-            'PictureBox1.Height = PictureBox1.Image.Height
+            PictureBox1.Stretch = Stretch.Uniform
+            PictureBox1.Width = PictureBox1.Source.Width
+            PictureBox1.Height = PictureBox1.Source.Height
         End If
         If qu(res.quimage) Is DBNull.Value OrElse qu(res.quimage) = "" Then
             PictureBox2.Source = Nothing
@@ -316,7 +324,7 @@ Public Class Questions
 
             End If
         End If
-
+        RichTextBox1.BringIntoView()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles button2.Click
@@ -424,7 +432,7 @@ Public Class Questions
 
     End Sub
 
-    Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs) Handles dociewer.KeyDown
+    Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
 
         If e.Key = Key.Right Then
             System.Threading.Thread.Sleep(100)

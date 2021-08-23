@@ -9,6 +9,7 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="Padding" Value="0,10,0,12" />
@@ -16,91 +17,69 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="59*"/>
+            <RowDefinition Height="551*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="127*"/>
+            <ColumnDefinition Width="360*"/>
+            <ColumnDefinition Width="352*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="label2" Height="30" Margin="122,10,556,571"/>
-        <TextBlock x:Name="label3" Margin="482,10,140,561" FontSize="18.667"/>
-        <ComboBox x:Name="ComboBox1"  Margin="612,310,174,266" MaxWidth="53" MaxHeight="33">
-            <ComboBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-300" Y="-300"/>
-                </TransformGroup>
-            </ComboBox.RenderTransform>
-        </ComboBox>
-        <FlowDocumentScrollViewer x:Name="dociewer" Margin="0,76,10,10" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
-            <FlowDocument x:Name="doc" ColumnWidth="600">
-                <BlockUIContainer>
-                    <Image x:Name="PictureBox2" />
-                </BlockUIContainer>
+        <TextBlock x:Name="label2" Margin="20,10,0,6" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="129" Text="question 20 of : " Grid.Column="1"/>
+        <TextBlock x:Name="label3" Margin="45,10,85,11" FontSize="18.667" Grid.Column="2"/>
+        <ComboBox x:Name="ComboBox1"   Width="53" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="160,13,0,13"/>
 
-                <Paragraph   >
-                    <Paragraph.Background>
+
+        <ScrollViewer x:Name="dociewer" Margin="0,17,10,10" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.Row="1" >
+            <StackPanel>
+                <Image x:Name="PictureBox2" />
+                <TextBlock x:Name="RichTextBox1" MaxWidth="700" HorizontalAlignment="Left" Margin="11,60,0,40" FontFamily="Georgia" FontSize="16">
+                    <TextBlock.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FFD8EEF0" Offset="0"/>
                             <GradientStop Color="#FFD8EEF0" Offset="1"/>
                             <GradientStop Color="#FFFDFDFD" Offset="0.49"/>
                         </LinearGradientBrush>
-                        
-                    </Paragraph.Background>
 
-                    <Run x:Name="RichTextBox1"></Run>
-                </Paragraph>
+                    </TextBlock.Background>
+                </TextBlock>
 
-                <BlockUIContainer>
-                    <StackPanel HorizontalAlignment="Left">
-                        <RadioButton x:Name="RadioButton1" MaxWidth="400" Margin="0,0,0,10" >
-                            <TextBlock></TextBlock>
-                        </RadioButton>
+                <RadioButton x:Name="RadioButton1" MaxWidth="400" Margin="20,0,0,10" HorizontalAlignment="Left" >
+                    <TextBlock FontFamily="Georgia"></TextBlock>
+                </RadioButton>
 
-                        <RadioButton x:Name="RadioButton2" MaxWidth="400" Margin="0,0,0,10"  >
-                            <TextBlock></TextBlock>
-                        </RadioButton>
+                <RadioButton x:Name="RadioButton2" MaxWidth="400" Margin="20,0,0,10" HorizontalAlignment="Left"  >
+                    <TextBlock FontFamily="Georgia"></TextBlock>
+                </RadioButton>
 
-                        <RadioButton x:Name="RadioButton3" MaxWidth="400" Margin="0,0,0,10">
-                            <TextBlock></TextBlock>
-                        </RadioButton>
+                <RadioButton x:Name="RadioButton3" MaxWidth="400" Margin="20,0,0,10" HorizontalAlignment="Left">
+                    <TextBlock FontFamily="Georgia"></TextBlock>
+                </RadioButton>
 
-                        <RadioButton x:Name="RadioButton4" MaxWidth="400" Margin="0,0,0,10">
-                            <TextBlock></TextBlock>
-                        </RadioButton>
+                <RadioButton x:Name="RadioButton4" MaxWidth="400" Margin="20,0,0,10" HorizontalAlignment="Left">
+                    <TextBlock FontFamily="Georgia"></TextBlock>
+                </RadioButton>
 
-                        <RadioButton x:Name="RadioButton5" MaxWidth="400" Margin="0,0,0,20">
-                            <TextBlock></TextBlock>
-                        </RadioButton>
-                    </StackPanel>
-                </BlockUIContainer>
-                <Paragraph>
-                    <InlineUIContainer>
+                <RadioButton x:Name="RadioButton5" MaxWidth="400" Margin="20,0,0,20" HorizontalAlignment="Left">
+                    <TextBlock FontFamily="Georgia"></TextBlock>
+                </RadioButton>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="button2" Content="prev" Width="74" VerticalAlignment="Top" Margin="30,0,0,0"  />
+                    <Button x:Name="button1" Content="next" Width="75" VerticalAlignment="Top" Margin="40,0,0,0"  />
+                    <TextBlock x:Name="label1" Margin="170,0,0,0" FontSize="32" FontWeight="Bold"/>
+                </StackPanel>
+               
 
-                        <Button x:Name="button2" Content="prev" Width="74" VerticalAlignment="Top" Margin="120,0,0,0"  />
+                <Image x:Name="PictureBox1" Height="100" Width="100" Margin="0,20,0,0"/>
+                <TextBlock x:Name="RichTextBox2"  Margin="11,40,0,50" MaxWidth="700" HorizontalAlignment="Left" FontFamily="Georgia" FontSize="16">
 
+                </TextBlock>
+                <TextBlock x:Name="scroller" Height="0"/>
 
-
-                    </InlineUIContainer>
-                    <InlineUIContainer>
-                        <Button x:Name="button1" Content="next" Width="75" VerticalAlignment="Top" Margin="20,0,0,0"  />
-                    </InlineUIContainer>
-                    <InlineUIContainer>
-                        <TextBlock x:Name="label1" Margin="200,0,0,0" FontSize="32" FontWeight="Bold"/>
-                    </InlineUIContainer>
-                </Paragraph>
-
-                <Section x:Name="panel1">
-                    <Paragraph x:Name="RichTextBox2" Focusable="True">
-                        <InlineUIContainer>
-                            <Image x:Name="PictureBox1" Height="100" Width="100"/>
-                        </InlineUIContainer>
-
-
-                    </Paragraph>
-                </Section>
-                <Paragraph x:Name="Scroller">
-                    <Run> </Run>
-                </Paragraph>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
-        <TextBlock x:Name="label4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="19,34,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+        <TextBlock x:Name="label4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="19,34,0,0" Grid.Column="0" Grid.Row="0" Height="19" Width="58"/>
     </Grid>
 </Window>

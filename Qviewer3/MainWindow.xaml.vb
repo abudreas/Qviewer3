@@ -73,7 +73,7 @@ Public Class MainWindow
         Try
             qForm.con.Open()
             For i As Integer = 0 To tablesName.Count - 1
-                loadStats(tablesName(i), cateogary(i))
+                stats(i) = loadStats(tablesName(i), cateogary(i))
             Next
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -104,11 +104,11 @@ Public Class MainWindow
                 Dim t As New TextBlock
                 Dim r As New Rectangle()
                 If x = 0 Then
-                    r.Fill = Brushes.Blue
+                    r.Fill = Brushes.Gray
                 ElseIf x = UBound(arr, 2) Then
-                    r.Fill = Brushes.Aqua
+                    r.Fill = Brushes.LightGray
                 Else
-                    r.Fill = Brushes.GhostWhite
+                    r.Fill = Brushes.Ivory
                 End If
 
                 r.Stroke = Brushes.Black
@@ -197,8 +197,8 @@ Public Class MainWindow
     End Function
     <CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")>
     Function loadQ(ByVal Idstring As String)
-        If MaskedTextBox1.Text = "" Then
-            MaskedTextBox1.Text = 50
+        If MaskedTextBox1.Text = "" Or Not IsNumeric(MaskedTextBox1.Text) Then
+            MaskedTextBox1.Text = Str(50)
         End If
         Dim newResult As New List(Of Object())
         shoWconter = 0
@@ -302,7 +302,7 @@ Public Class MainWindow
         radioButton1.ToolTip = "Solve a random set of questions acoording to the selected criteria." & vbNewLine & "you can't skip questions"
         radioButton2.ToolTip = "Questions are not random." & vbNewLine & "solve and skip as you like." & vbNewLine & "your progress will be saved"
         radioButton3.ToolTip = "Same as Test Mode , with added timer" & vbNewLine & "30 sec for one question"
-        'ToolTip1.SetToolTip(Button1, "Reset and delet All your records in this Q bank" & vbNewLine & "No question will be deleted")
+        button1.ToolTip = "Reset and delet All your records in this Q bank" & vbNewLine & "No question will be deleted"
     End Sub
 
     <CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")>
@@ -472,7 +472,8 @@ Public Class MainWindow
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        MsgBox("Qviewer 3.0 by Abudreas . 21 AUG 2021 ")
+        '  MsgBox("Qviewer 3.0 by Abudreas . 21 AUG 2021 ")
+        Windows.MessageBox.Show("Qviewer 3.0 by Abudreas . 21 AUG 2021 ")
     End Sub
 
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles comboBox2.SelectionChanged
@@ -503,6 +504,7 @@ Public Class MainWindow
     Sub drawCatg(ByVal catg() As String)
         comboBox1.Items.Clear()
         comboBox1.SelectedIndex = -1
+        comboBox1.Text = "Select Category"
         comboBox1.Items.Add("All")
         For i As Integer = 0 To UBound(catg)
             comboBox1.Items.Add(catg(i))
@@ -513,7 +515,7 @@ Public Class MainWindow
     End Function
 
     Private Sub MaskedTBchanged(sender As Object, e As TextChangedEventArgs) Handles MaskedTextBox1.TextChanged
-        If (IsNumeric(MaskedTextBox1.Text) AndAlso Int(MaskedTextBox1.Text) < 50) Or MaskedTextBox1.Text = "" Then
+        If (IsNumeric(MaskedTextBox1.Text) AndAlso Int(MaskedTextBox1.Text) <= 50) Or MaskedTextBox1.Text = "" Then
             mask = MaskedTextBox1.Text
         Else
             MaskedTextBox1.Text = mask

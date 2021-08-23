@@ -16,16 +16,18 @@
             </MenuItem>
         </Menu>
         <Button x:Name="StartBtn" Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="146,290,0,0"/>
-        <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="101,81,0,0"/>
+        <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="136,59,0,0"/>
         <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="10,178,0,0" IsEditable="True" Text="Select Category"/>
         <Button x:Name="button1" Content="Reset" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="650,315,0,0"/>
         <TextBox x:Name="MaskedTextBox1"  HorizontalAlignment="Left" Height="23" Margin="237,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="34" Text="50" />
         <CheckBox x:Name="checkBox2" Content="Wrongly Answered" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBox1" Content="Only Unattempted " HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="radioButton3" Content="Time Trial" HorizontalAlignment="Left" Margin="10,295,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="radioButton3" Content="Time Trial" HorizontalAlignment="Left" Margin="10,295,0,0" VerticalAlignment="Top" IsEnabled="False"/>
         <RadioButton x:Name="radioButton1" Content="Test Mode" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="radioButton2" Content="Reading mode" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <Grid x:Name="tableGrid" HorizontalAlignment="Left" Height="262" Margin="292,48,0,0" VerticalAlignment="Top" Width="411"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="136,224,0,0" TextWrapping="Wrap" Text="Number  of Questions :" VerticalAlignment="Top" FontSize="9.333" UseLayoutRounding="True"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="136,224,0,0" TextWrapping="Wrap" Text="Number  of Questions :" VerticalAlignment="Top" FontSize="9.333"/>
+        <Label x:Name="label" Content="Choose your Qbank :" HorizontalAlignment="Left" Margin="9,55,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="(Max 50)" HorizontalAlignment="Left" Margin="160,231,0,0" VerticalAlignment="Top" FontSize="9.333"  UseLayoutRounding="True"/>
     </Grid>
 </Window>
