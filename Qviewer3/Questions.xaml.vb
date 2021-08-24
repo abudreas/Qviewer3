@@ -6,6 +6,7 @@ Public Class Questions
     Public con As OleDb.OleDbConnection
     Public result As List(Of Object())
     Dim radioBrush As Brush
+    Dim magnification As Double = 1
     ' Public FilePath As String
     Enum res As Integer
         id = 0
@@ -36,6 +37,7 @@ Public Class Questions
         ' This call is required by the designer.
         InitializeComponent()
         radioBrush = RadioButton1.Background.Clone
+
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
@@ -432,8 +434,7 @@ Public Class Questions
 
     End Sub
 
-    Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-
+    Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs) Handles dociewer.KeyDown
         If e.Key = Key.Right Then
             System.Threading.Thread.Sleep(100)
             nextq()
@@ -441,6 +442,7 @@ Public Class Questions
             System.Threading.Thread.Sleep(100)
             prevq()
         End If
+
     End Sub
 
     Function captureSelection() As RadioButton
@@ -462,15 +464,47 @@ Public Class Questions
         con = New OleDb.OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & file)
     End Sub
 
+    Private Sub slider_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles slider.ValueChanged
+        Dim x As Integer
+        Dim y As Double = 1
+        x = slider.Value + 11
+        RadioButton1.Content.fontsize = x
+        RadioButton2.Content.fontsize = x
+        RadioButton3.Content.fontsize = x
+        RadioButton4.Content.fontsize = x
+        RadioButton5.Content.fontsize = x
+        RichTextBox1.FontSize = x
+        RichTextBox2.FontSize = x
 
+
+    End Sub
 
     Sub nextq()
         changeQ(1)
     End Sub
+
+    Private Sub dociewer_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles dociewer.PreviewKeyDown
+        If e.Key = Key.Right Then
+            System.Threading.Thread.Sleep(100)
+            nextq()
+        ElseIf e.Key = Key.Left Then
+            System.Threading.Thread.Sleep(100)
+            prevq()
+        End If
+    End Sub
+
     Sub prevq()
         If showCounter <> 0 Then
             changeQ(-1)
         End If
+    End Sub
+
+    Private Sub Questions_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles Me.SizeChanged
+        'If magnification = 0 Then magnification = 0.39
+        RichTextBox1.MaxWidth = 0.82742316784869985 * Me.ActualWidth
+        RichTextBox2.MaxWidth = 0.82742316784869985 * Me.ActualWidth
+        Resources("radmax") = 0.4728132387706856 * Me.ActualWidth
+
     End Sub
 
 
