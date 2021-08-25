@@ -17,7 +17,16 @@
             <Setter Property="Padding" Value="0,10,0,12" />
             <Setter Property="MaxWidth" Value="{DynamicResource radmax}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
-           
+
+        </Style>
+        <Style x:Key="SelectableTextBlockLikeStyle" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Arrow"/>
+            <Setter Property="Padding" Value="-2,0,-2,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <!-- The Padding -2,0,0,0 is required because the TextBox seems to have an inherent "Padding" of about 2 pixels. Without the Padding property, the text seems to be 2 pixels to the left compared to a TextBlock -->
         </Style>
     </Window.Resources>
 
@@ -34,41 +43,41 @@
 
         <TextBlock x:Name="label2" Margin="20,10,0,6" Grid.ColumnSpan="1" HorizontalAlignment="Left" Width="129" Text="question 20 of : " Grid.Column="1"/>
         <TextBlock x:Name="label3" Margin="45,0,10,21" FontSize="18.667" Grid.Column="2"/>
-        <ComboBox x:Name="ComboBox1"   Width="53" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="160,13,0,13"/>
+        <ComboBox x:Name="ComboBox1"   Width="53" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="160,13,0,13" Height="30"/>
 
 
         <ScrollViewer x:Name="dociewer" Margin="0,17,10,10" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.Row="1" >
             <StackPanel>
                 <Image x:Name="PictureBox2" />
-                               <TextBlock x:Name="RichTextBox1" MaxWidth="700" HorizontalAlignment="Left" Margin="11,60,0,40" FontFamily="Georgia" FontSize="16">
-                    <TextBlock.Background>
+                <TextBox x:Name="RichTextBox1" MaxWidth="700" HorizontalAlignment="Left" Margin="11,60,0,40" FontFamily="Georgia" FontSize="16" Style="{StaticResource SelectableTextBlockLikeStyle}">
+                    <TextBox.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FFD8EEF0" Offset="0"/>
                             <GradientStop Color="#FFD8EEF0" Offset="1"/>
                             <GradientStop Color="#FFFDFDFD" Offset="0.49"/>
                         </LinearGradientBrush>
 
-                    </TextBlock.Background>
-                </TextBlock>
+                    </TextBox.Background>
+                </TextBox>
 
                 <RadioButton x:Name="RadioButton1"  Margin="20,0,0,10" >
-                    <TextBlock FontFamily="Georgia"></TextBlock>
+                    <TextBlock  FontFamily="Georgia"></TextBlock>
                 </RadioButton>
 
                 <RadioButton x:Name="RadioButton2" Margin="20,0,0,10" >
-                    <TextBlock FontFamily="Georgia"></TextBlock>
+                    <TextBlock  FontFamily="Georgia"></TextBlock>
                 </RadioButton>
 
                 <RadioButton x:Name="RadioButton3" Margin="20,0,0,10">
-                    <TextBlock FontFamily="Georgia"></TextBlock>
+                    <TextBlock  FontFamily="Georgia"></TextBlock>
                 </RadioButton>
 
                 <RadioButton x:Name="RadioButton4" Margin="20,0,0,10">
-                    <TextBlock FontFamily="Georgia"></TextBlock>
+                    <TextBlock  FontFamily="Georgia"></TextBlock>
                 </RadioButton>
 
                 <RadioButton x:Name="RadioButton5"  Margin="20,0,0,10">
-                    <TextBlock FontFamily="Georgia"></TextBlock>
+                    <TextBlock  FontFamily="Georgia"></TextBlock>
                 </RadioButton>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="button2" Content="prev" Width="74" VerticalAlignment="Top" Margin="30,0,0,0"  />
@@ -78,9 +87,9 @@
 
 
                 <Image x:Name="PictureBox1" Height="100" Width="100" Margin="0,20,0,0"/>
-                <TextBlock x:Name="RichTextBox2"  Margin="11,40,0,50" MaxWidth="700" HorizontalAlignment="Left" FontFamily="Georgia" FontSize="16">
+                <TextBox Style="{StaticResource SelectableTextBlockLikeStyle}" x:Name="RichTextBox2"  Margin="11,40,0,50" MaxWidth="700" HorizontalAlignment="Left" FontFamily="Georgia" FontSize="16">
 
-                </TextBlock>
+                </TextBox>
                 <TextBlock x:Name="scroller" Height="0"/>
 
             </StackPanel>

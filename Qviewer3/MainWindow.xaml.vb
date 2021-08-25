@@ -473,7 +473,8 @@ Public Class MainWindow
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         '  MsgBox("Qviewer 3.0 by Abudreas . 21 AUG 2021 ")
-        Windows.MessageBox.Show("Qviewer 3.1 by Abudreas . 24 AUG 2021 ")
+        Windows.MessageBox.Show("Qviewer ver (" & Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() & ") by Abudreas . 24 AUG 2021 ")
+
     End Sub
 
     Private Sub ComboBox2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles comboBox2.SelectionChanged
