@@ -269,7 +269,7 @@ Public Class Questions
         RichTextBox1.Text = (qu(res.question))
 
         ' RichTextBox1.Height = RichTextBox1.ClientRectangle.Height
-
+        qu(res.correct) = qu(res.correct).Replace(vbCrLf, " ")
         RadioButton1.Content.text = qu(res.option1)
         RadioButton2.Content.text = qu(res.option2)
         RadioButton3.Content.text = qu(res.option3)
@@ -385,13 +385,13 @@ Public Class Questions
 
         Next
         If sql <> "" Then
-            sql = "UPDATE " & tableName & " SET solved = 2 WHERE ID = " + sql
+            sql = "UPDATE `" & tableName & "` SET solved = 2 WHERE ID = " + sql
             sql = sql.TrimEnd(" or ID = ".ToCharArray)
 
         End If
 
         If sql2 <> "" Then
-            sql2 = "UPDATE " & tableName & " SET solved = 1 WHERE ID = " + sql2
+            sql2 = "UPDATE `" & tableName & "` SET solved = 1 WHERE ID = " + sql2
             sql2 = sql2.TrimEnd(" or ID = ".ToCharArray)
 
         End If
@@ -410,14 +410,14 @@ Public Class Questions
                 cmd.ExecuteNonQuery()
             End If
             If Not timeTrial And Not testMode Then
-                sql = "SELECT TableInfo FROM " & tableName
+                sql = "SELECT TableInfo FROM `" & tableName & "`"
                 cmd.CommandText = sql
                 Dim info As String = cmd.ExecuteScalar
                 Dim processedinfo As String = MainWindow.prossecInfo(info, category, showCounter.ToString)
                 If processedinfo = "" Then
-                    sql = "UPDATE " & tableName & " SET TableInfo = '" & info & category & ":" & showCounter.ToString & "*' WHERE ID = 1"
+                    sql = "UPDATE `" & tableName & "` SET TableInfo = '" & info & category & ":" & showCounter.ToString & "*' WHERE ID = 1"
                 Else
-                    sql = "UPDATE " & tableName & " SET TableInfo = '" & processedinfo & "' WHERE ID = 1"
+                    sql = "UPDATE `" & tableName & "` SET TableInfo = '" & processedinfo & "' WHERE ID = 1"
                 End If
 
                 cmd.CommandText = sql
@@ -461,7 +461,14 @@ Public Class Questions
         Return cradio
     End Function
     Public Sub initConnection(ByVal file As String)
-        con = New OleDb.OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & file)
+        Try
+            con = New OleDb.OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & file)
+
+        Catch ex As Exception
+            MsgBox("You have To install Microsoft Access Database Engine 2010")
+            End
+        End Try
+
     End Sub
 
     Private Sub slider_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles slider.ValueChanged
@@ -501,9 +508,9 @@ Public Class Questions
 
     Private Sub Questions_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles Me.SizeChanged
         'If magnification = 0 Then magnification = 0.39
-        RichTextBox1.MaxWidth = 0.82742316784869985 * Me.ActualWidth
-        RichTextBox2.MaxWidth = 0.82742316784869985 * Me.ActualWidth
-        Resources("radmax") = 0.4728132387706856 * Me.ActualWidth
+        RichTextBox1.MaxWidth = 0.83 * Me.ActualWidth
+        RichTextBox2.MaxWidth = 0.83 * Me.ActualWidth
+        Resources("radmax") = 0.47 * Me.ActualWidth
 
     End Sub
 

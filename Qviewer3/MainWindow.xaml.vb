@@ -39,7 +39,7 @@ Public Class MainWindow
             Dim i As Integer = 0
             Do While i < res.Rows.Count And i < maxTable
                 tablesName.Add(res.Rows(i)(2))
-                sql = "SELECT TableInfo FROM " & res.Rows(i)(2)
+                sql = "SELECT TableInfo FROM `" & res.Rows(i)(2) & "`"
                 cmd.CommandText = sql
                 Dim s = cmd.ExecuteScalar()
                 Dim temp() As String = loadCatg(tablesName(i))
@@ -140,7 +140,7 @@ Public Class MainWindow
 
         For i As Integer = 0 To UBound(catg)
             arrTable(0, i + 1) = catg(i)
-            sql = "SELECT count(ID) FROM " & myTable & " WHERE catg ='" & catg(i) & "'"
+            sql = "SELECT count(ID) FROM `" & myTable & "` WHERE catg ='" & catg(i) & "'"
             cmd.CommandText = sql
             arrTable(1, i + 1) = cmd.ExecuteScalar
             sql += " AND solved <> '0'"
@@ -156,7 +156,7 @@ Public Class MainWindow
 
             arrTable(3, i + 1) = Math.Round(x, 2) * 100 & " %"
         Next
-        sql = "SELECT count(ID) FROM " & myTable
+        sql = "SELECT count(ID) FROM `" & myTable & "`"
         cmd.CommandText = sql
         arrTable(1, UBound(arrTable, 2)) = cmd.ExecuteScalar
         sql += " WHERE solved <> '0'"
@@ -175,7 +175,7 @@ Public Class MainWindow
         Return arrTable
     End Function
     Function ProcessIdString(ByVal TableN As String, ByVal catogary As String, ByVal selectoption As Qselection) As String
-        Dim sql As String = "SELECT * FROM " + TableN
+        Dim sql As String = "SELECT * FROM `" + TableN + "`"
 
         Select Case selectoption
             Case Qselection.onlyUnattempeted
@@ -219,7 +219,7 @@ Public Class MainWindow
 
 
             If radioButton2.IsChecked Then
-                cmd.CommandText = "SELECT TableInfo FROM " & tablesName(comboBox2.SelectedIndex)
+                cmd.CommandText = "SELECT TableInfo FROM `" & tablesName(comboBox2.SelectedIndex) & "`"
                 Dim catg As String
                 If comboBox1.SelectedIndex < 0 Then
                     catg = "All"
@@ -314,7 +314,7 @@ Public Class MainWindow
         Dim cmd As New OleDb.OleDbCommand
         Dim reader As OleDb.OleDbDataReader
         cmd.Connection = qForm.con
-        sql = "Select Distinct catg FROM " & myTable
+        sql = "Select Distinct catg FROM `" & myTable & "`"
         'qForm.con.Open()
         cmd.CommandText = sql
         reader = cmd.ExecuteReader()
@@ -366,11 +366,11 @@ Public Class MainWindow
             Dim cmd As New OleDb.OleDbCommand
 
             cmd.Connection = qForm.con
-            sql = "UPDATE " & tablesName(comboBox2.SelectedIndex) & " SET solved = '0' "
+            sql = "UPDATE `" & tablesName(comboBox2.SelectedIndex) & "` SET solved = '0' "
             qForm.con.Open()
             cmd.CommandText = sql
             cmd.ExecuteNonQuery()
-            sql = "UPDATE " & tablesName(comboBox2.SelectedIndex) & " SET TableInfo = '*info:" & comboBox2.SelectedItem.ToString & "*' WHERE ID = 1"
+            sql = "UPDATE `" & tablesName(comboBox2.SelectedIndex) & "` SET TableInfo = '*info:" & comboBox2.SelectedItem.ToString & "*' WHERE ID = 1"
             cmd.CommandText = sql
             cmd.ExecuteNonQuery()
         Catch ex As Exception
