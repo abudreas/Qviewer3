@@ -82,7 +82,9 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="button2" Content="prev" Width="74" VerticalAlignment="Top" Margin="30,0,0,0"  />
                     <Button x:Name="button1" Content="next" Width="75" VerticalAlignment="Top" Margin="40,0,0,0"  />
-                    <TextBlock x:Name="label1" Margin="170,0,0,0" FontSize="32" FontWeight="Bold"/>
+                    <Button x:Name="button3" Content="Show Answer" Width="74" VerticalAlignment="Top" Margin="300,0,0,0"  />
+
+                    <TextBlock x:Name="label1" Margin="65,0,0,0" FontSize="32" FontWeight="Bold"/>
                 </StackPanel>
 
 

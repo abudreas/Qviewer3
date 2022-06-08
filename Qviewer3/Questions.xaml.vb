@@ -204,21 +204,7 @@ Public Class Questions
             Exit Sub
         End If
         '//////////////////////////
-        If RadioButton1.Content.text = result.Item(showCounter)(res.correct) Then
-            RadioButton1.Content.Background = Brushes.Green
-
-        ElseIf RadioButton2.Content.text = result.Item(showCounter)(res.correct) Then
-            RadioButton2.Content.Background = Brushes.Green
-
-        ElseIf RadioButton3.Content.text = result.Item(showCounter)(res.correct) Then
-            RadioButton3.Content.Background = Brushes.Green
-
-        ElseIf RadioButton4.Content.text = result.Item(showCounter)(res.correct) Then
-            RadioButton4.Content.Background = Brushes.Green
-
-        ElseIf RadioButton5.Content.text = result.Item(showCounter)(res.correct) And RadioButton5.IsVisible Then
-            RadioButton5.Content.Background = Brushes.Green
-        End If
+        hilightAnswer()
 
         If cradio.Content.text = result.Item(showCounter)(res.correct) Then
             label1.Foreground = Brushes.Green
@@ -246,6 +232,25 @@ Public Class Questions
 
         'Panel1.Visibility = Visibility.Visible
     End Sub
+
+    Private Sub hilightAnswer()
+        If RadioButton1.Content.text = result.Item(showCounter)(res.correct) Then
+            RadioButton1.Content.Background = Brushes.Green
+
+        ElseIf RadioButton2.Content.text = result.Item(showCounter)(res.correct) Then
+            RadioButton2.Content.Background = Brushes.Green
+
+        ElseIf RadioButton3.Content.text = result.Item(showCounter)(res.correct) Then
+            RadioButton3.Content.Background = Brushes.Green
+
+        ElseIf RadioButton4.Content.text = result.Item(showCounter)(res.correct) Then
+            RadioButton4.Content.Background = Brushes.Green
+
+        ElseIf RadioButton5.Content.text = result.Item(showCounter)(res.correct) And RadioButton5.IsVisible Then
+            RadioButton5.Content.Background = Brushes.Green
+        End If
+    End Sub
+
     Private Sub showNextQuestion()
 
         label2.Text = "Question " & showCounter + 1 & " Of " & result.Count
@@ -371,7 +376,7 @@ Public Class Questions
     Private Sub saveProgress()
         Dim sql As String = ""
         Dim sql2 As String = ""
-
+        Dim x As Integer = 0
         For i As Integer = 0 To answered.Length - 1
             Dim answer As String = answers(i)
             If answers(i) Is Nothing Then
@@ -382,8 +387,24 @@ Public Class Questions
             ElseIf result.Item(i)(res.correct) <> answer And (IsDBNull(result.Item(i)(res.solved)) OrElse Convert.ToInt32(result.Item(i)(res.solved)) = 0) Then
                 sql2 += Convert.ToString(result.Item(i)(res.id)) + " or ID = "
             End If
+            If x > 100 Then
+                x = 0
+                runSaveCMD(sql, sql2)
+                sql = ""
+                sql2 = ""
 
+            End If
+            x += 1
         Next
+
+        runSaveCMD(sql, sql2)
+
+    End Sub
+
+    Private Sub runSaveCMD(ByRef sql As String, ByRef sql2 As String)
+        If sql = "" AndAlso sql2 = "" Then
+            Exit Sub
+        End If
         If sql <> "" Then
             sql = "UPDATE `" & tableName & "` SET solved = 2 WHERE ID = " + sql
             sql = sql.TrimEnd(" or ID = ".ToCharArray)
@@ -431,7 +452,6 @@ Public Class Questions
         Finally
             con.Close()
         End Try
-
     End Sub
 
     Private Sub Window_KeyDown(sender As Object, e As KeyEventArgs) Handles dociewer.KeyDown
@@ -498,6 +518,20 @@ Public Class Questions
             System.Threading.Thread.Sleep(100)
             prevq()
         End If
+    End Sub
+
+    Private Sub button3_Click(sender As Object, e As RoutedEventArgs) Handles button3.Click
+        hilightAnswer()
+        RichTextBox2.Visibility = Visibility.Visible
+        PictureBox1.Visibility = Visibility.Visible
+        If answered(showCounter) = 0 Then
+            answers(showCounter) = "Wrong!!@#$%^&*()(*&^%$13"
+            answeredCounter += 1
+
+
+            label3.Text = Math.Round(correctCounter / answeredCounter, 2) * 100 & " % Correct"
+        End If
+        answered(showCounter) = 1
     End Sub
 
     Sub prevq()
