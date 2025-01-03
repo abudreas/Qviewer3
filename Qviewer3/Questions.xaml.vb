@@ -3,7 +3,7 @@ Imports System.ComponentModel
 
 Public Class Questions
     Dim WithEvents timer1 As New System.Timers.Timer
-    Public con As OleDb.OleDbConnection
+    Public con As SQLite.SQLiteConnection
     Public result As List(Of Object())
     Dim radioBrush As Brush
     Dim magnification As Double = 1
@@ -195,7 +195,7 @@ Public Class Questions
         RadioButton5.Content.Background = radioBrush
     End Sub
     Sub checkAnswer(ByRef cradio As RadioButton)
-        Dim iscorrect As Integer = 0
+        Dim iscorrect As Integer
 
         '////////////////////////////
         If cradio Is Nothing And testMode Then
@@ -372,7 +372,7 @@ Public Class Questions
 
     End Sub
 
-    <CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")>
+
     Private Sub saveProgress()
         Dim sql As String = ""
         Dim sql2 As String = ""
@@ -402,9 +402,7 @@ Public Class Questions
     End Sub
 
     Private Sub runSaveCMD(ByRef sql As String, ByRef sql2 As String)
-        If sql = "" AndAlso sql2 = "" Then
-            Exit Sub
-        End If
+
         If sql <> "" Then
             sql = "UPDATE `" & tableName & "` SET solved = 2 WHERE ID = " + sql
             sql = sql.TrimEnd(" or ID = ".ToCharArray)
@@ -416,7 +414,7 @@ Public Class Questions
             sql2 = sql2.TrimEnd(" or ID = ".ToCharArray)
 
         End If
-        Dim cmd As New OleDb.OleDbCommand
+        Dim cmd As New SQLite.SQLiteCommand
         Try
 
             cmd.Connection = con
@@ -482,10 +480,10 @@ Public Class Questions
     End Function
     Public Sub initConnection(ByVal file As String)
         Try
-            con = New OleDb.OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & file)
+            con = New SQLite.SQLiteConnection("Data Source=" & file)
 
         Catch ex As Exception
-            MsgBox("You have To install Microsoft Access Database Engine 2010")
+            MsgBox("Data base engine couldn't initiate")
             End
         End Try
 
@@ -493,7 +491,7 @@ Public Class Questions
 
     Private Sub slider_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles slider.ValueChanged
         Dim x As Integer
-        Dim y As Double = 1
+        ' Dim y As Double = 1
         x = slider.Value + 11
         RadioButton1.Content.fontsize = x
         RadioButton2.Content.fontsize = x

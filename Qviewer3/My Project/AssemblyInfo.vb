@@ -15,7 +15,7 @@ Imports System.Windows
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("Abudreas")>
 <Assembly: AssemblyProduct("Qviewer3")>
-<Assembly: AssemblyCopyright("Copyright ©  2021")>
+<Assembly: AssemblyCopyright("Copyright ©  2022")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: ComVisible(false)>
 
@@ -55,6 +55,6 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("3.1.2.0")>
-<Assembly: AssemblyFileVersion("3.1.2.0")>
+<Assembly: AssemblyVersion("3.2.3.0")>
+<Assembly: AssemblyFileVersion("3.2.3.0")>
 <Assembly: NeutralResourcesLanguage("en")>

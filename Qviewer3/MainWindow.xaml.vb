@@ -1,7 +1,8 @@
 ﻿Imports System.ComponentModel
 Imports System.Data
+Imports System.Data.SQLite
 Public Class MainWindow
-    Const maxTable As Integer = 5
+    Const maxTable As Integer = 7
     Dim WithEvents OpenFileDialog1 As Microsoft.Win32.OpenFileDialog
 
     Enum Qselection As Integer
@@ -26,7 +27,7 @@ Public Class MainWindow
         tableLoaded = False
         Dim sql As String
         Try
-            Dim cmd As New OleDb.OleDbCommand
+            Dim cmd As New SQLiteCommand
 
 
             cmd.Connection = qForm.con
@@ -38,6 +39,10 @@ Public Class MainWindow
             tablesName.Clear()
             Dim i As Integer = 0
             Do While i < res.Rows.Count And i < maxTable
+                If res.Rows(i)(2) = "android_metadata" Or res.Rows(i)(2) = "qviewer" Then
+                    i += 1
+                    Continue Do
+                End If
                 tablesName.Add(res.Rows(i)(2))
                 sql = "SELECT TableInfo FROM `" & res.Rows(i)(2) & "`"
                 cmd.CommandText = sql
@@ -135,7 +140,7 @@ Public Class MainWindow
         arrTable(2, 0) = "attempted"
         arrTable(3, 0) = "score"
 
-        Dim cmd As New OleDb.OleDbCommand
+        Dim cmd As New SQLiteCommand
         cmd.Connection = qForm.con
 
         For i As Integer = 0 To UBound(catg)
@@ -204,8 +209,8 @@ Public Class MainWindow
         shoWconter = 0
         Try
             Dim idList As New List(Of Object())
-            Dim reader As OleDb.OleDbDataReader
-            Dim cmd As New OleDb.OleDbCommand
+            Dim reader As SQLite.SQLiteDataReader
+            Dim cmd As New SQLiteCommand
             cmd.Connection = qForm.con
             cmd.CommandText = Idstring
             qForm.con.Open()
@@ -291,6 +296,9 @@ Public Class MainWindow
     End Function
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        If Not CheckDlls() Then
+            End
+        End If
         initComp()
         OpenFileDialog1.InitialDirectory = Environment.CurrentDirectory
 
@@ -311,8 +319,8 @@ Public Class MainWindow
         Dim li As New List(Of String)
 
         '  Try
-        Dim cmd As New OleDb.OleDbCommand
-        Dim reader As OleDb.OleDbDataReader
+        Dim cmd As New SQLiteCommand
+        Dim reader As SQLiteDataReader
         cmd.Connection = qForm.con
         sql = "Select Distinct catg FROM `" & myTable & "`"
         'qForm.con.Open()
@@ -363,7 +371,7 @@ Public Class MainWindow
 
 
         Try
-            Dim cmd As New OleDb.OleDbCommand
+            Dim cmd As New SQLiteCommand
 
             cmd.Connection = qForm.con
             sql = "UPDATE `" & tablesName(comboBox2.SelectedIndex) & "` SET solved = '0' "
@@ -424,8 +432,8 @@ Public Class MainWindow
                 Dim wrt As IO.StreamWriter = IO.File.CreateText("Settings")
                 If settings = "" Then
                     settings = "*path:t*table:0*"
-                    settings = prossecInfo(settings, "path", filePath)
                 End If
+                settings = prossecInfo(settings, "path", filePath)
                 wrt.Write(settings)
                 wrt.Close()
             End If
@@ -472,8 +480,8 @@ Public Class MainWindow
     End Sub
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        '  MsgBox("Qviewer 3.0 by Abudreas . 21 AUG 2021 ")
-        Windows.MessageBox.Show("Qviewer ver (" & Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() & ") by Abudreas . 24 AUG 2021 " & vbNewLine & vbNewLine & "Database file: '" & filePath & "'")
+        '  MsgBox("Qviewer 3.0 by Abudreas .Initial release 21 AUG 2021 ")
+        Windows.MessageBox.Show("Qviewer ver (" & Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString() & ") by Abudreas .2022" & vbNewLine & "Initial release 24 AUG 2021 " & vbNewLine & vbNewLine & "Database file: '" & filePath & "'")
 
     End Sub
 
@@ -499,7 +507,7 @@ Public Class MainWindow
     Sub initComp()
         OpenFileDialog1 = New Microsoft.Win32.OpenFileDialog()
         OpenFileDialog1.FileName = "OpenFileDialog1"
-        OpenFileDialog1.Filter = "Access file |*.accdb"
+        OpenFileDialog1.Filter = "Sqlite File |*.db"
     End Sub
 
     Sub drawCatg(ByVal catg() As String)
@@ -522,4 +530,18 @@ Public Class MainWindow
             MaskedTextBox1.Text = mask
         End If
     End Sub
+    Function CheckDlls() As Boolean
+        Dim ddls() As String = {"System.Data.SQLite.dll",
+            "System.Data.SQLite.EF6.dll",
+            "System.Data.SQLite.Linq.dll",
+            "x86\sqlite3.dll",
+            "x86\SQLite.Interop.dll"}
+        For Each s In ddls
+            If Not IO.File.Exists(s) Then
+                MsgBox(s & " dosen't exist. please reinstall the application", MsgBoxStyle.Critical)
+                Return False
+            End If
+        Next
+        Return True
+    End Function
 End Class
